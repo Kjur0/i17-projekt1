@@ -28,9 +28,6 @@ public class GamePanel extends JPanel {
     private final int maxX;
     private final int maxY;
 
-    private final int fieldWidth;
-    private final int fieldHeight;
-
     private int screenWidth;
     private int screenHeight;
 
@@ -56,8 +53,8 @@ public class GamePanel extends JPanel {
 
         setIgnoreRepaint(true);
 
-        fieldWidth = Config.FieldSize.width;
-        fieldHeight = Config.FieldSize.height;
+        int fieldWidth = Config.FieldSize.width;
+        int fieldHeight = Config.FieldSize.height;
 
         gameWidth = fieldWidth * TileSize;
         gameHeight = fieldHeight * TileSize;

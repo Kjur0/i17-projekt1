@@ -70,8 +70,9 @@ public class Player {
         x += vx;
         y += vy;
 
-        if (Math.abs(x) > Config.FieldSize.width / 2) {
-            x = Math.signum(x) * (Config.FieldSize.width / 2);
+        int maxX = Config.FieldSize.width / 2;
+        if (Math.abs(x) > maxX) {
+            x = Math.signum(x) * maxX;
         }
         int maxY = Config.FieldSize.height / 2;
         if (y < -maxY) {
@@ -85,6 +86,7 @@ public class Player {
     }
 
     // TODO: fixTHIS
+    @SuppressWarnings("unused")
     public void updateBROKEN() {
         log.finest("Updating player...");
 
