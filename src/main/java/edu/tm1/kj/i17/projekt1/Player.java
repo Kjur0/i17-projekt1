@@ -52,30 +52,36 @@ public class Player {
     public void update() {
         if (Controller.isLeftPressed()) {
             log.finest("\t>Left pressed");
-            vx = -Config.Acceleration * deltaTime;
+            vx = -Config.Acceleration;
         }
         if (Controller.isRightPressed()) {
             log.finest("\t>Right pressed");
-            vx = Config.Acceleration * deltaTime;
+            vx = Config.Acceleration;
         }
         if (Controller.isUpPressed()) {
             log.finest("\t>Up pressed");
-            vy = Config.Acceleration * deltaTime;
+            vy = Config.Acceleration;
         }
         if (Controller.isDownPressed()) {
             log.finest("\t>Down pressed");
-            vy = -Config.Acceleration * deltaTime;
+            vy = -Config.Acceleration;
         }
 
         x += vx;
         y += vy;
 
         if (Math.abs(x) > Config.FieldSize.width / 2) {
-            x = Math.signum(x) * Config.FieldSize.width / 2;
+            x = Math.signum(x) * (Config.FieldSize.width / 2);
         }
-        if (Math.abs(y) > Config.FieldSize.height / 2) {
-            y = Math.signum(y) * Config.FieldSize.height / 2;
+        int maxY = Config.FieldSize.height / 2;
+        if (y < -maxY) {
+            y = -maxY;
+        } else if (y > maxY) {
+            y = maxY;
         }
+
+        vx = 0;
+        vy = 0;
     }
 
     // TODO: fixTHIS

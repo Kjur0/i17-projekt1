@@ -63,7 +63,8 @@ public class MapGenerator {
         log.finer("Generating ground...");
         for (int row = -FieldSize.height / 2; row < GroundLevel; row++) {
             for (int col = -FieldSize.width / 2; col <= FieldSize.width / 2; col++) {
-                map.put(new Point(col, row), GameField.TileType.GROUND);
+                if (col <= 0) map.put(new Point(col, row), GameField.TileType.GROUND);
+                else map.put(new Point(col, row), GameField.TileType.RUBBER);
                 log.finest("\t<Ground at (" + col + ", " + row + ")");
             }
         }

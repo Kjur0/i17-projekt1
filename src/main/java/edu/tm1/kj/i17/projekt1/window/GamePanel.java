@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
         playerHeight = Config.PlayerSize.height;
 
         playerOffsetX = playerWidth / 2;
-        playerOffsetY = playerHeight + TileSize / 2;
+        playerOffsetY = playerHeight - TileSize / 2;
         log.config("Player offset: (" + playerOffsetX + ", " + playerOffsetY + ")");
 
         halfGameWidth = gameWidth / 2;
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel {
         playerX = Player.getX();
         playerY = Player.getY();
 
-        for (int row = startY; row <= endY; row++) {
+        for (int row = startY; row >= endY; row--) {
             for (int col = startX; col <= endX; col++) {
                 int x = col * TileSize - tileOffset;
                 int y = -row * TileSize - tileOffset;
@@ -143,13 +143,13 @@ public class GamePanel extends JPanel {
             log.finest("\t\tScreen too wide");
             g2d.translate(halfScreenWidth, 0);
             log.finest("\t\tCentering screen horizontally");
-        } else if (playerX <= -halfScreenWidthTiles) {
+        } else if (playerX <= halfScreenWidthTiles - maxX) {
             log.finest("\t\tLeft edge near");
             g2d.translate(halfGameWidth, 0);
             log.finest("\t\tBordering left edge");
 
             endX = (int) Math.ceil(screenWidthTiles) - maxX + 1;
-        } else if (playerX >= fieldWidth - halfScreenWidthTiles) {
+        } else if (playerX >= maxX - halfScreenWidthTiles) {
             log.finest("\t\tRight edge near");
             g2d.translate(screenWidth - halfGameWidth, 0);
             log.finest("\t\tBordering right edge");
@@ -167,30 +167,30 @@ public class GamePanel extends JPanel {
         log.finest("\t\t\tEnd X: " + endX);
 
         log.finest("\t\tCalculating Y translations...");
-        startY = -maxY;
-        endY = maxY;
+        startY = maxY;
+        endY = -maxY;
         if (screenHeight >= gameHeight) {
             log.finest("\t\tScreen too tall");
             g2d.translate(0, halfScreenHeight);
             log.finest("\t\tCentering screen vertically");
-        } else if (playerY >= halfScreenHeightTiles) {
+        } else if (playerY >= maxY - halfScreenHeightTiles) {
             log.finest("\t\tTop edge near");
             g2d.translate(0, halfGameHeight);
             log.finest("\t\tBordering top edge");
 
-            endY = (int) Math.ceil(screenHeightTiles) - maxY + 1;
-        } else if (playerY <= fieldHeight - halfScreenHeightTiles) {
+            endY = maxY - (int) Math.ceil(screenHeightTiles) - 1;
+        } else if (playerY <= halfScreenHeightTiles - maxY) {
             log.finest("\t\tBottom edge near");
             g2d.translate(0, screenHeight - halfGameHeight);
             log.finest("\t\tBordering bottom edge");
 
-            startY = maxY - (int) Math.floor(screenHeightTiles) - 1;
+            startY = (int) Math.floor(screenHeightTiles) - maxY + 1;
         } else {
             g2d.translate(0, halfScreenHeight - playerYScreen);
             log.finest("\t\tCentering player vertically");
 
-            startY = (int) Math.floor(playerY - halfScreenHeightTiles) - 1;
-            endY = (int) Math.ceil(playerY + halfScreenHeightTiles) + 1;
+            startY = (int) Math.floor(playerY + halfScreenHeightTiles) + 1;
+            endY = (int) Math.ceil(playerY - halfScreenHeightTiles) - 1;
         }
         log.finest("\t\tY translations calculated");
         log.finest("\t\t\tStart Y: " + startY);
